@@ -65,7 +65,18 @@ function render() {
     // render the board
     board.forEach(function (boxVal, boxIdx) {
         document.getElementById(boxIdx).style.background = playerIcon[boxVal]
-    })
+    });
+    // what happens when there is a tie
+
+    if (winner === 'T') {
+        messageEl.textContent = "It's a tie";
+    } else if (winner) {
+        messageEl.textContent = `${playerIcon[winner]} wins`
+    } else {
+        messageEl.textContent = `${playerIcon[turn]}'s turn`
+    }
+
+    resetBtn.style.visibility = winner ? 'visible' : 'hidden';
 }
 
 // write getWinner function 
@@ -81,7 +92,6 @@ function getWinner() {
   }
 
 function handleClick (e) {
-    // console.log(e.target)
     if (winner) return;
     if (board[e.target.id]) return;
     board[e.target.id] = turn;

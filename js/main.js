@@ -55,6 +55,7 @@ function init(){
 
     // we can use .fill(null) to fill out board with null values
     board = new Array(9).fill(null);
+    // board = [0,0,0,0,0,0,0,0,0]
 
     turn = 1;
     winner = null;
@@ -64,7 +65,7 @@ function init(){
 function render() {
     // render the board
     board.forEach(function (boxVal, boxIdx) {
-        document.getElementById(boxIdx).style.background = playerIcon[boxVal]
+        document.getElementById(boxIdx).innerHTML = playerIcon[boxVal];
     });
     // what happens when there is a tie
 
@@ -85,10 +86,11 @@ function getWinner() {
     winningCombinations.forEach(function(combination) {
       if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]]) === 3) {
         winner = turn; // whoever is on current turn and combo matches then that one wins
-      } else if (!board.includes(null)) {
-        winner = 'T';
       }
     })
+    if (!winner && !board.includes(null)) {
+        winner = 'T';
+    }
   }
 
 function handleClick (e) {

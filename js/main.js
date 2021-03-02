@@ -46,6 +46,14 @@ boardEl.addEventListener('click', handleClick);
 init();
 
 function init(){
+    // instead of 
+    //board = [
+//   null, null, null,
+//   null, null, null,
+//   null, null, null
+// ]
+
+    // we can use .fill(null) to fill out board with null values
     board = new Array(9).fill(null);
 
     turn = 1;
@@ -54,10 +62,36 @@ function init(){
 }
 
 function render() {
-
+    // render the board
+    board.forEach(function (boxVal, boxIdx) {
+        document.getElementById(boxIdx).style.background = playerIcon[boxVal]
+    })
 }
 
+// write getWinner function 
+
+function getWinner() {
+    winningCombinations.forEach(function(combination) {
+      if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]]) === 3) {
+        winner = turn; // whoever is on current turn and combo matches then that one wins
+      } else if (!board.includes(null)) {
+        winner = 'T';
+      }
+    })
+  }
 
 function handleClick (e) {
-    console.log(e.target)
+    // console.log(e.target)
+    if (winner) return;
+    if (board[e.target.id]) return;
+    board[e.target.id] = turn;
+
+    // now let's check the winner, we will call a function that determines whetere there is a winner or not
+    getWinner();
+
+    // if no winner is determined then switch the turn
+    turn = turn * -1
+
+    render();
 }
+
